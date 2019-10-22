@@ -1,7 +1,5 @@
 PLUGIN = nil
 
--- Hard-coded to be used with the 1:1000 map at http://earth.motfe.net
-
 local settings = {}
 
 settings.WORLD_NAME = "world"
@@ -16,16 +14,13 @@ function Initialize(Plugin)
 
     -- Timer Setup
 
-    local timerID = 0
     local Timer = {}
     local timers = {}
 
     Timer.__index = Timer
 
     function Timer:New(sec, func)
-       local object = {Function = func, SetTime = sec^2, CurrentTime = 0, TimesRun = 0}
-       setmetatable(object, Timer)
-       return object
+       return setmetatable({Function = func, SetTime = sec^2, CurrentTime = 0, TimesRun = 0}, Timer)
     end
 
     function Timer:ChangeDelay(sec)
@@ -35,31 +30,47 @@ function Initialize(Plugin)
     function Timer:Run()
        if type(self.Function) == "function" then
 	  self.Function()
-       end 
+       end
     end
 
     -- Ticker
     
     local function onTick()
-       for k, v in pairs(timers) do
+     --[[
+       for _, v in pairs(timers) do
 	  if v.CurrentTime % v.SetTime == 0 and v.CurrentTime % 20 == 0 then
 	     Timer.Run(v)
 	     v.CurrentTime = 0
 	  end
 	  v.CurrentTime = v.CurrentTime + 1
        end
+     --]]
+	for k, v in pairs(Timer) do
+	    local p = nil
+	    if type(v) == table then
+	       p = table.concat(v, ", ")
+	    elseif type(v) == function then
+	       p = v()
+	    else
+	       p = v
+	    end
+	    LOG(k..": "..p)
+	end
     end
 
     
     ---- Functions
 
-    local function catatumbo() 
-       cRoot:Get():GetWorld(settings.WORLD_NAME):CastThunderbolt(Vector3i(math.random(-8593, -8583), 62, math.random(-1115, -1105)))
+    local function catatumbo()
+        local x = math.random(-8593, -8583)
+	local y = 62
+	local z = math.random(-1115, -1105)
+       cRoot:Get():GetWorld(settings.WORLD_NAME):CastThunderbolt(Vector3i(x, y, z))
     end
 
     ---- Timers
 
-    timers.catatumbo = Timer:New(3, catatumbo)    
+    Timer:New(3, catatumbo)
 
     -- Randomizes Catatumbo lighting strike time
 
@@ -77,4 +88,3 @@ end
 function OnDisable()
     LOG(PLUGIN:GetName() .. " is shutting down...")
 end
-    
