@@ -16,13 +16,13 @@ function Initialize(Plugin)
     function Timer:New(sec, func)
        func = func or function() LOGERROR("A timer with no function has been provided!") return end;
        sec = sec or 30
-       local self = setmetatable({Function = func, SetTime = sec^2, CurrentTime = 0}, Timer)
+       local self = setmetatable({Function = func, SetTime = sec*60, CurrentTime = 0}, Timer)
        table.insert(timers, self)
        return self
     end
 
     function Timer:ChangeDelay(sec)
-       self.SetTime = sec^2
+       self.SetTime = sec*60
     end
 
     function Timer:Run()
@@ -47,10 +47,10 @@ function Initialize(Plugin)
     ---- Functions
 
     local function catatumbo()
-        local x = math.random(-8593, -8583)
+        local x = math.random(-8593, -8583/_CONFIG.MAPDIV)
 	local y = 62
-	local z = math.random(-1115, -1105)
-        cRoot:Get():GetWorld(_G.WORLD_NAME):CastThunderbolt(Vector3i(x, y, z))
+	local z = math.random(-1115, -1105/_CONFIG.MAPDIV)
+        cRoot:Get():GetWorld(_CONFIG.WORLD_NAME):CastThunderbolt(Vector3i(x, y, z))
     end
 
     ---- Timers
