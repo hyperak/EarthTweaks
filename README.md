@@ -13,7 +13,7 @@ In no particular order:
   	- [ ] Get in-game coordinates from DD (decimal degree) coordinates
 	    * [x] Backend
 	    * [ ] In-game commands
-	- [ ] Convert in-game coordinates to DD coordinates
+	- [ ] Convert in-game coordinates to DD coordinates (The https://nominatim.openstreetmap.org API will be used for this)
 - [ ] Real weather
 	- [ ] OpenWeatherMap API usage
 	- [ ] Compute real coordinates as the player's location changes (depends on in-game coords -> DD coords)
