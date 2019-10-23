@@ -1,26 +1,24 @@
 PLUGIN = nil
 
-local settings = {}
-
-settings.WORLD_NAME = "world"
-
 function Initialize(Plugin)
     Plugin:SetName("EarthTweaks")
     Plugin:SetVersion(1)
     PLUGIN = Plugin
-
-    
     LOG("Initialised " .. Plugin:GetName() .. " v." .. Plugin:GetVersion())
 
     -- Timer Setup
 
-    local Timer = {}
-    local timers = {}
-
+    Timer = {}
     Timer.__index = Timer
+    local timers = {}
+    local timerID = 0
 
     function Timer:New(sec, func)
-       return setmetatable({Function = func, SetTime = sec^2, CurrentTime = 0, TimesRun = 0}, Timer)
+       func = func or function() LOGERROR("A timer with no function has been provided!") return end;
+       sec = sec or 30
+       local self = setmetatable({Function = func, SetTime = sec^2, CurrentTime = 0}, Timer)
+       table.insert(timers, self)
+       return self
     end
 
     function Timer:ChangeDelay(sec)
@@ -34,28 +32,15 @@ function Initialize(Plugin)
     end
 
     -- Ticker
-    
+
     local function onTick()
-     --[[
        for _, v in pairs(timers) do
-	  if v.CurrentTime % v.SetTime == 0 and v.CurrentTime % 20 == 0 then
+ 	  if v.CurrentTime % v.SetTime == 0 and v.CurrentTime % 20 == 0 then
 	     Timer.Run(v)
 	     v.CurrentTime = 0
 	  end
 	  v.CurrentTime = v.CurrentTime + 1
        end
-     --]]
-	for k, v in pairs(Timer) do
-	    local p = nil
-	    if type(v) == table then
-	       p = table.concat(v, ", ")
-	    elseif type(v) == function then
-	       p = v()
-	    else
-	       p = v
-	    end
-	    LOG(k..": "..p)
-	end
     end
 
     
@@ -65,23 +50,23 @@ function Initialize(Plugin)
         local x = math.random(-8593, -8583)
 	local y = 62
 	local z = math.random(-1115, -1105)
-       cRoot:Get():GetWorld(settings.WORLD_NAME):CastThunderbolt(Vector3i(x, y, z))
+        cRoot:Get():GetWorld(_G.WORLD_NAME):CastThunderbolt(Vector3i(x, y, z))
     end
 
     ---- Timers
 
-    Timer:New(3, catatumbo)
+    local catatumbo_t = Timer:New(3, catatumbo)
 
     -- Randomizes Catatumbo lighting strike time
 
-    timers.rantumbo = Timer:New(30, function()
-       timers.catatumbo:ChangeDelay(math.random(2,5))
+    Timer:New(60, function()
+       catatumbo_t:ChangeDelay(math.random(3,10))
     end)
 
     ---- Hooks
 
     cPluginManager.AddHook(cPluginManager.HOOK_WORLD_TICK, onTick)
-    
+
     return true
 end
 
