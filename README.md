@@ -10,8 +10,8 @@ In no particular order:
 	- email me suggestions: diego at airmail dot cc
 - Coordinate finder
   	- [ ] Get in-game coordinates from DD (decimal degree) coordinates
-	      - [x] Backend
-	      - [ ] In-game commands
+	    * [x] Backend
+	    * [ ] In-game commands
 	- [ ] Convert in-game coordinates to DD coordinates
 - Real weather
         - [ ] OpenWeatherMap API usage
