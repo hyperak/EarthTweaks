@@ -61,6 +61,7 @@ function toMCCoords(lat, lon)
    return mc_lat, mc_lon
 end
 
+-- Mere testing of the code
 local lat, lon = toDMS(10.2532284, -67.5926057)
 local mlat, mlon = toMCCoords(10.2532284, -67.5926057)
 
