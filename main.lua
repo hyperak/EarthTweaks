@@ -24,25 +24,25 @@ function Initialize(Plugin)
     end
 
     function Timer:ChangeDelay(sec)
-       self.SetTime = sec*60
+        self.SetTime = sec*60
     end
 
     function Timer:Run()
-       if type(self.Function) == "function" then
-	  self.Function()
-       end
+        if type(self.Function) == "function" then
+            self.Function()
+        end
     end
 
     -- Ticker
 
     local function onTick()
        for _, v in pairs(timers) do
- 	  if v.CurrentTime % v.SetTime == 0 and v.CurrentTime % 20 == 0 then
-	     Timer.Run(v)
-	     v.CurrentTime = 0
-	  end
-	  v.CurrentTime = v.CurrentTime + 1
-       end
+            if v.CurrentTime % v.SetTime == 0 and v.CurrentTime % 20 == 0 then
+                Timer.Run(v)
+                v.CurrentTime = 0
+            end
+            v.CurrentTime = v.CurrentTime + 1
+        end
     end
 
     
@@ -50,8 +50,8 @@ function Initialize(Plugin)
 
     local function catatumbo()
         local x = math.random(-8593, -8583/_CONFIG.MAPDIV)
-	local y = 62
-	local z = math.random(-1115, -1105/_CONFIG.MAPDIV)
+        local y = 62
+        local z = math.random(-1115, -1105/_CONFIG.MAPDIV)
         cRoot:Get():GetWorld(_CONFIG.WORLD_NAME):CastThunderbolt(Vector3i(x, y, z))
     end
 
@@ -62,7 +62,7 @@ function Initialize(Plugin)
     -- Randomizes Catatumbo lighting strike time
 
     Timer:New(60, function()
-       catatumbo_t:ChangeDelay(math.random(3,10))
+        catatumbo_t:ChangeDelay(math.random(3,10))
     end)
 
     ---- Hooks
