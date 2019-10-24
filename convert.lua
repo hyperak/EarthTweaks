@@ -63,7 +63,6 @@ end
 
 function getPlaceFromCoords(lat, lon)
     -- AAAARG I HAVE TO CACHE IT!!!!!
-   local file_r = io.open("places.json", "r")
    local function loadFromCache(file)
          for _k, _v in pairs(file) do
             for k, v in pairs(_v) do 
@@ -84,12 +83,14 @@ function getPlaceFromCoords(lat, lon)
 	       end
 	    end
    end
+   local file_r = io.open("places.json", "r")
+   LOG(type(file_r))
    if file_r ~= nil then
+      LOG("doing result")
       local result = loadFromCache(cJson:Parse(file_r:read('*a')))
-      if result then
-         return result
-      end 
+      LOG("computation done, "..result or "nothing provided")
       file_r:close()
+      return result or nil
    else
       local file_new = io.open("places.json", "w"):close()
    end
