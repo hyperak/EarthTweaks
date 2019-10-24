@@ -67,7 +67,9 @@ function getPlaceFromCoords(lat, lon)
     -- AAAARG I HAVE TO CACHE IT!!!!!
    local function loadFromCache(file)
          for _k, _v in pairs(file) do
-            for k, v in pairs(_v) do 
+            LOG(_v)
+            for k, v in pairs(_v) do
+               LOG(v)
                local yesLat = false
                local yesLon = false
                if k == "lat" then
