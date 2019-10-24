@@ -84,8 +84,8 @@ function getPlaceFromCoords(lat, lon)
 	       end
 	    end
    end
-   if type(io.read(file_r, '*a')) ~= "string" then
-         local result = loadFromCache(cJson:Parse(file_r))
+   if type(io.read(file_r, '*a')) == "string" then
+      local result = loadFromCache(cJson:Parse(io.read(file_r, '*a')))
       if result then
          return result
       end 
