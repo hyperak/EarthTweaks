@@ -91,7 +91,9 @@ function getPlaceFromCoords(lat, lon)
    local j_file_r = {}
    if type(file_r:read()) == "string" then
       LOG("doing result")
-      local _j_file_r = cJson:Parse(file_r:read('*a'))
+      local _read = file_r:read('*a')
+      LOG(_read)
+      local _j_file_r = cJson:Parse(_read)
       if type(_j_file_r) == "table" then
          j_file_r = _j_file_r
       end
