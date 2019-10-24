@@ -49,10 +49,10 @@ function Initialize(Plugin)
     ---- Functions
 
     local function catatumbo()
-        local x = math.random(-8593, -8583/_CONFIG.MAPDIV)
+        local x = math.random(-8593, -8583/CONFIG.MAPDIV)
         local y = 62
-        local z = math.random(-1115, -1105/_CONFIG.MAPDIV)
-        cRoot:Get():GetWorld(_CONFIG.WORLD_NAME):CastThunderbolt(Vector3i(x, y, z))
+        local z = math.random(-1115, -1105/CONFIG.MAPDIV)
+        cRoot:Get():GetWorld(CONFIG.WORLD_NAME):CastThunderbolt(Vector3i(x, y, z))
     end
 
     ---- Timers

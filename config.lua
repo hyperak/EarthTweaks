@@ -24,20 +24,20 @@ mapscales["1:2000"] = {width = 21504, length = 10752}
 mapscales["1:4000"] = {width = 10752, length = 5376}
 
 -- Globals
-_CONFIG = {}
-_CONFIG.MAPDIV = nil
-_CONFIG.WORLD_NAME = settings.world_name
-_CONFIG.MODULES = setmetatable(settings["modules"], {__index})
+CONFIG = {}
+CONFIG.MAPDIV = nil
+CONFIG.WORLD_NAME = settings.world_name
+CONFIG.MODULES = setmetatable(settings["modules"], {__index})
 
 local ms = settings.mapscale
 
 if ms == "1:1000" then
-    _CONFIG.MAPDIV = 1
+    CONFIG.MAPDIV = 1
 elseif ms == "1:2000" then
-    _CONFIG.MAPDIV = 2
+    CONFIG.MAPDIV = 2
 elseif ms == "1:4000" then
-    _CONFIG.MAPDIV = 4
+    CONFIG.MAPDIV = 4
 else
     LOGERROR("No map scale specified! Using 1:1000 by default")
-    _G.MAPDIV = 1
+    CONFIG.MAPDIV = 1
 end

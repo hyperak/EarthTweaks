@@ -1,5 +1,7 @@
 -- Port of http://earth.motfe.net/coords.php
 
+local fs = require('fs')
+
 function toDMS(lat, lon)
    lat = lat or 0
    lon = lon or 0
@@ -52,8 +54,8 @@ function toMCCoords(lat, lon)
    end
    local mc_lat = lat/648000
    local mc_lon = lon/324000
-   local mul_lat = 21600/_CONFIG.MAPDIV
-   local mul_lon = 10800/_CONFIG.MAPDIV
+   local mul_lat = 21600/CONFIG.MAPDIV
+   local mul_lon = 10800/CONFIG.MAPDIV
 
    mc_lat = math.floor((mc_lat * mul_lat) + 0.5)
    mc_lon = math.floor((mc_lon * mul_lon) + 0.5)
@@ -87,7 +89,7 @@ function getPlaceFromCoords(lat, lon)
 	       end
 	    end
    end
-   local file_r = g_fs.read('places.json')
+   local file_r = fs.read('places.json')
    local j_file_r = {}
    if type(file_r) == 'string' then
       LOG("doing result")
@@ -99,7 +101,7 @@ function getPlaceFromCoords(lat, lon)
       LOG("computation done, "..type(result))
       return result or nil
    else
-      g_fs.write('places.json','')
+      fs.write('places.json','')
    end
    -- Downloading if it's not cached
    local url = "https://nominatim.openstreetmap.org/reverse?format=json&lat="..lat.."&lon="..lon
@@ -114,7 +116,7 @@ function getPlaceFromCoords(lat, lon)
    end)
    table.insert(j_file_r, jsonBody)
    local j_file_w = cJson:Serialize(j_file_r)
-   g_fs.write('places.json', j_file_w)
+   fs.write('places.json', j_file_w)
    return jsonBody["display_name"], jsonBody["address"]["city"]..', '..string.upper(jsonBody["address"]["country_code"])
 end
 

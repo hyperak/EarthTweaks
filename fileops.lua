@@ -6,7 +6,7 @@
 --   len: length of file
 --   asserts on error
 
-g_fs = {}
+fs = {}
 
 function fs.length(filename)
   local fh = assert(io.open(filename, "rb"))
@@ -52,3 +52,5 @@ function fs.modify(filename, modify_func)
   contents = modify_func(contents)
   write(filename, contents)
 end
+
+return fs
