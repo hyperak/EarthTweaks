@@ -94,7 +94,7 @@ function getPlaceFromCoords(lat, lon)
          j_file_r = _j_file_r
       end
       local result = loadFromCache(j_file_r)
-      LOG("computation done, "..result or "nothing provided")
+      LOG("computation done, "..type(result))
       return result or nil
    else
       local file_new = io.open("places.json", "w")
