@@ -89,10 +89,10 @@ function getPlaceFromCoords(lat, lon)
       if result then
          return result
       end 
+      file_r:close()
    else
       local file_new = io.open("places.json", "w"):close()
    end
-   file_r:close()
    -- Downloading if it's not cached
    local url = "https://nominatim.openstreetmap.org/reverse?format=json&lat="..lat.."&lon="..lon
    local res, body, jsonBody = cUrlClient:Get(url, function(a_Body, a_Data)
