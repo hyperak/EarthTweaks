@@ -61,6 +61,8 @@ function toMCCoords(lat, lon)
    return mc_lat, mc_lon
 end
 
+-- This tasty part is not tasty because it's painful
+
 function getPlaceFromCoords(lat, lon)
     -- AAAARG I HAVE TO CACHE IT!!!!!
    local function loadFromCache(file)
