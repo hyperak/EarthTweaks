@@ -87,10 +87,12 @@ function getPlaceFromCoords(lat, lon)
    local j_file_r = {}
    if type(file_r:read()) == "string" then
       LOG("doing result")
-      j_file_r = cJson:Parse(file_r:read('*a'))
+      local _j_file_r = cJson:Parse(file_r:read('*a'))
+      if type(_j_file_r) == "table" then
+         j_file_r = _j_file_r
+      end
       local result = loadFromCache(j_file_r)
       LOG("computation done, "..result or "nothing provided")
-      file_r:close()
       return result or nil
    else
       local file_new = io.open("places.json", "w")
@@ -107,11 +109,12 @@ function getPlaceFromCoords(lat, lon)
          return 0, a_Data
       end
    end)
-   local file_w = io.open("places.json", "w+"):read('*a')
+   local file_w = io.open("places.json", "w+")
    table.insert(j_file_r, jsonBody)
    local j_file_w = cJson:Serialize(j_file_r)
    file_w:write(j_file_w)
    file_w:close()
+   file_r:close()
    return jsonBody["display_name"], jsonBody["address"]["city"]..', '..string.upper(jsonBody["address"]["country_code"])
 end
 
