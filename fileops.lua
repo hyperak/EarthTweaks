@@ -6,7 +6,7 @@
 --   len: length of file
 --   asserts on error
 
-_G.fs = {}
+g_fs = {}
 
 function fs.length(filename)
   local fh = assert(io.open(filename, "rb"))

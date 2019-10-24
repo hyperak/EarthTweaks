@@ -87,7 +87,7 @@ function getPlaceFromCoords(lat, lon)
 	       end
 	    end
    end
-   local file_r = fs.read('places.json')
+   local file_r = g_fs.read('places.json')
    local j_file_r = {}
    if type(file_r) == 'string' then
       LOG("doing result")
@@ -99,7 +99,7 @@ function getPlaceFromCoords(lat, lon)
       LOG("computation done, "..type(result))
       return result or nil
    else
-      fs.write('places.json','')
+      g_fs.write('places.json','')
    end
    -- Downloading if it's not cached
    local url = "https://nominatim.openstreetmap.org/reverse?format=json&lat="..lat.."&lon="..lon
@@ -114,7 +114,7 @@ function getPlaceFromCoords(lat, lon)
    end)
    table.insert(j_file_r, jsonBody)
    local j_file_w = cJson:Serialize(j_file_r)
-   fs.write('places.json', j_file_w)
+   g_fs.write('places.json', j_file_w)
    return jsonBody["display_name"], jsonBody["address"]["city"]..', '..string.upper(jsonBody["address"]["country_code"])
 end
 
