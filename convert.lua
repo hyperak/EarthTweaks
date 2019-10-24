@@ -1,7 +1,5 @@
 -- Port of http://earth.motfe.net/coords.php
 
-local fs = require('fs')
-
 function toDMS(lat, lon)
    lat = lat or 0
    lon = lon or 0
