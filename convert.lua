@@ -65,8 +65,8 @@ end
 
 function getPlaceFromCoords(lat, lon)
     -- AAAARG I HAVE TO CACHE IT!!!!!
-   local function loadFromCache(file)
-         for _k, _v in pairs(file) do
+   local function loadFromCache(json)
+         for _k, _v in pairs(json) do
             LOG(_v)
             for k, v in pairs(_v) do
                LOG(v)
