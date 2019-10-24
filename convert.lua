@@ -104,6 +104,7 @@ function getPlaceFromCoords(lat, lon)
    -- Downloading if it's not cached
    local url = "https://nominatim.openstreetmap.org/reverse?format=json&lat="..lat.."&lon="..lon
    local res, body, jsonBody = cUrlClient:Get(url, function(a_Body, a_Data)
+      LOG("MY MEDICAL EXAM RESULTS ARE IN!!!")
       if a_Body then
          LOG(a_Body)
          return 1, a_Body, cJson:Parse(a_Body)
