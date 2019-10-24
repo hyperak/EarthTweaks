@@ -85,7 +85,7 @@ function getPlaceFromCoords(lat, lon)
    end
    local file_r = io.open("places.json", "r")
    LOG(type(file_r))
-   if file_r:read() ~= nil then
+   if string.len(file_r:read()) > 2 then
       LOG("doing result")
       local result = loadFromCache(cJson:Parse(file_r:read('*a')))
       LOG("computation done, "..result or "nothing provided")
