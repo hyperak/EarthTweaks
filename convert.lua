@@ -93,7 +93,9 @@ function getPlaceFromCoords(lat, lon)
       file_r:close()
       return result or nil
    else
-      local file_new = io.open("places.json", "w"):close()
+      local file_new = io.open("places.json", "w")
+      file_new:write("")
+      file_new:close()
    end
    -- Downloading if it's not cached
    local url = "https://nominatim.openstreetmap.org/reverse?format=json&lat="..lat.."&lon="..lon
