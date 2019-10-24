@@ -61,7 +61,51 @@ function toMCCoords(lat, lon)
    return mc_lat, mc_lon
 end
 
--- Mere testing of the code
-local lat, lon = toDMS(10.2532284, -67.5926057)
-local mlat, mlon = toMCCoords(10.2532284, -67.5926057)
+function getPlaceFromCoords(lat, lon)
+    -- AAAARG I HAVE TO CACHE IT!!!!!
+    local file_r = io.open("places.json", "r")
+    if file_r then
+    local j_file_r = cJson:Parse(file_r)
+    file_r:close()
+        for _k, _v in pairs(j_file_r) do
+       	    for k, v in pairs(_v) do 
+    	        local yesLat = false
+	  	local yesLon = false
+            	if k == "lat" then
+	       	   if v - lat < 1 and v - lat > 1 then
+	       	      yesLat = true
+	       	   end
+	       elseif k == "lon" then
+	       	   if v - lon < 1 and v - lon > 1 then
+	               yesLon = true
+	      	   end
+	       end
+	       if yesLat and yesLon then
+	           return v["display_name"], v["address"]["city"]..', '..string.upper(v["address"]["country_code"])
+	       end
+	    end
+	end
+    local url = "https://nominatim.openstreetmap.org/reverse?format=json&lat="..lat.."&lon="..lon
+    local res, body = cUrlClient:Get(url, function(a_Body, a_Data)
+    	  if a_Body then
+	     LOG(a_Body)
+	     return 1, a_Body
+	  else
+	     return 0, a_Data
+	  end
+    	end)
+    local jsonBody = cJson:Parse(body)
+    local file_w = io.open("places.json", "w+"):read('*a')
+    table.insert(j_file_r, jsonBody)
+    local j_file_w = cJson:Serialize(j_file_r)
+    file_w:write(j_file_w)
+    file_w:close()
+    return jsonBody["display_name"], jsonBody["address"]["city"]..', '..string.upper(jsonBody["address"]["country_code"])
+end
 
+-- Mere testing of the code
+local testlat = 10.2532284
+local testlon = -67.5926057
+local lat, lon = toDMS(testlat, testlon)
+local mlat, mlon = toMCCoords(testlat, testlon)
+local rlat, rlon = getPlaceFromCoords(testlat, testlon)
