@@ -85,7 +85,7 @@ function getPlaceFromCoords(lat, lon)
 	    end
    end
    if file_r then
-      local result = loadFromCache(c_Json:Parse(file_r))
+      local result = loadFromCache(cJson:Parse(file_r))
       if result then
          return result
       end 
