@@ -84,7 +84,7 @@ function getPlaceFromCoords(lat, lon)
 	       end
 	    end
    end
-   if file_r:len() >= 1 then
+   if string.len(file_r) >= 1 then
       local result = loadFromCache(cJson:Parse(file_r))
       if result then
          return result
