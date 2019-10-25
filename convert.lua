@@ -99,7 +99,6 @@ function getCoordsFromPlace(lat, lon)
             return assert(k["display_name"]), assert(k["address"]["city"]..', '..string.upper(k["address"]["country_code"])), foundLat, foundLon
          end
       end
-      LOG(foundLat..' '..foundLon)
    end
    local file_r = cFile:ReadWholeFile(json_filename)
    local name, weather_name
