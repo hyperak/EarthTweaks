@@ -84,6 +84,7 @@ function getCoordsFromPlace(lat, lon)
       local foundLat = nil
       local foundLon = nil
       for k, v in pairs(json) do
+         LOG(tostring(v))
          if v == "lat" then
             LOG(v - lat)
             if v - lat < 1 then
@@ -138,4 +139,4 @@ local testlon = -67.5926057
 local lat, lon = toDMS(testlat, testlon)
 local mlat, mlon = toMCCoords(testlat, testlon)
 local rlat, rlon, name, weather_name = getCoordsFromPlace(testlat, testlon)
-LOG(rlat..' '..rlon)
+LOG(name)
