@@ -123,6 +123,7 @@ end
 function getPlaceFromCoords(lat, lon)
     -- AAAARG I HAVE TO CACHE IT!!!!!
    local function loadFromCache(json)
+      LOG("Running loadFromCache()")
          for _k, _v in pairs(json) do
             LOG(_v)
             for k, v in pairs(_v) do
@@ -147,10 +148,10 @@ function getPlaceFromCoords(lat, lon)
    local file_r = fs.read('places.json')
    local j_file_r = {}
    if type(file_r) == 'string' then
-      LOG("doing result")
       local _j_file_r = cJson:Parse(file_r)
       if type(_j_file_r) == "table" then
          j_file_r = _j_file_r
+         LOG(file_r)
       end
       local result = loadFromCache(j_file_r)
       LOG("computation done, "..type(result))
