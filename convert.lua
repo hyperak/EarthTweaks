@@ -94,9 +94,10 @@ function getCoordsFromPlace(lat, lon)
             end
          end
          if foundLat and foundLon then
-            return foundLat, foundLon, assert(k["display_name"]), assert(k["address"]["city"]..', '..string.upper(k["address"]["country_code"]))
+            return assert(k["display_name"]), assert(k["address"]["city"]..', '..string.upper(k["address"]["country_code"])), foundLat, foundLon
          end
       end
+      LOG(foundLat..' '..foundLon)
    end
    local file_r = cFile:ReadWholeFile(json_filename)
    local name, weather_name
