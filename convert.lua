@@ -83,12 +83,13 @@ end
 function getPlaceFromCoords(lat, lon)
     -- AAAARG I HAVE TO CACHE IT!!!!!
    local function loadFromCache(json)
-         for _k, _v in pairs(json) do
-            LOG(_v)
-            for k, v in pairs(_v) do
+--        for k, v in pairs(json) do
+      local yesLat = false
+      local yesLon = false
+      for k, i in pairs(json) do
+         if i and type(i) ~= "string" then
+            for k, v in pairs(i) do
                LOG(v)
-               local yesLat = false
-               local yesLon = false
                if k == "lat" then
                   if v - lat < 1 and v - lat > 1 then -- Some flexibility as far as 1 degree
                      yesLat = true
@@ -99,9 +100,21 @@ function getPlaceFromCoords(lat, lon)
                   end
                end
             end
-	       if yesLat and yesLon then
+         else
+            LOG(i)
+            if k == "lat" then
+               if i - lat < 1 and i - lat > 1 then
+                  yesLat = true
+               end
+            elseif k == "lon" then
+               if i - lon < 1 and i - lon > 1 then
+                  yesLon = true
+               end
+            end
+         end
+         if yesLat and yesLon then
             return v["display_name"], v["address"]["city"]..', '..string.upper(v["address"]["country_code"])
-	       end
+         end
 	    end
    end
    local file_r = cFile:ReadWholeFile(json_filename)
@@ -115,7 +128,9 @@ function getPlaceFromCoords(lat, lon)
       end
       local result = loadFromCache(j_file_r)
       LOG("computation done, "..type(result))
-      return result or nil
+      if result then
+         return result
+      end
    else
       fs.write(json_filename,'')
    end
