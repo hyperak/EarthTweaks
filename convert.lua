@@ -84,12 +84,14 @@ function getCoordsFromPlace(lat, lon)
       local foundLat = nil
       local foundLon = nil
       for k, v in pairs(json) do
-         if v == "lon" then
-            if v - lat < 1 and v - lat > 1 then
+         if v == "lat" then
+            LOG(v - lat)
+            if v - lat < 1 then
                foundLat = v
             end
          elseif v == "lon" then
-            if v - lon < 1 and v - lon > 1 then
+            LOG(v - lon)
+            if v - lon < 1 then
                foundLon = v
             end
          end
