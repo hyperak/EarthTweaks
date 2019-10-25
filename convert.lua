@@ -78,61 +78,54 @@ function toMCCoords(lat, lon)
    return mc_lat, mc_lon
 end
 
--- This tasty part is not tasty because it's painful
-
-function getPlaceFromCoords(lat, lon)
+function getCoordsFromPlace(lat, lon)
     -- AAAARG I HAVE TO CACHE IT!!!!!
    local function loadFromCache(json)
-      local yesLat = false
-      local yesLon = false
+      local foundLat = nil
+      local foundLon = nil
       for k, v in pairs(json) do
-         LOG(v)
          if v == "lon" then
             if v - lat < 1 and v - lat > 1 then
-               yesLat = true
+               foundLat = v
             end
          elseif v == "lon" then
             if v - lon < 1 and v - lon > 1 then
-               yesLon = true
+               foundLon = v
             end
          end
-         if yesLat and yesLon then
-            return assert(k["display_name"]), assert(k["address"]["city"]..', '..string.upper(k["address"]["country_code"]))
+         if foundLat and foundLon then
+            return foundLat, foundLon, assert(k["display_name"]), assert(k["address"]["city"]..', '..string.upper(k["address"]["country_code"]))
          end
       end
    end
    local file_r = cFile:ReadWholeFile(json_filename)
-   LOG(file_r)
+   local name, weather_name
    local j_file_r = {}
-   if type(file_r) == 'string' then
-      local _j_file_r = cJson:Parse(file_r)
-      LOG("Json file parsed type is "..type(_j_file_r))
-      if type(_j_file_r) == "table" then
-         j_file_r = _j_file_r
-      end
-      local result = loadFromCache(j_file_r)
+   local _j_file_r = cJson:Parse(file_r)
+   if type(_j_file_r) == "table" then -- Tasty type checking
+      j_file_r = _j_file_r
+      name, weather_name = loadFromCache(j_file_r)
       LOG("computation done, "..type(result))
-      if result then
-         return result
-      end
    else
       fs.write(json_filename,'')
    end
-   -- Downloading if it's not cached
-   local url = "https://nominatim.openstreetmap.org/reverse?format=json&lat="..lat.."&lon="..lon
-   local res, body, jsonBody = cUrlClient:Get(url, function(a_Body, a_Data)
-      LOG("MY MEDICAL EXAM RESULTS ARE IN!!!")
-      if a_Body then
-         LOG(a_Body)
-         return 1, a_Body, cJson:Parse(a_Body)
-      else
-         return 0, a_Data
-      end
-   end)
-   table.insert(j_file_r, jsonBody)
-   local j_file_w = cJson:Serialize(j_file_r)
-   fs.write(json_filename, j_file_w)
-   return jsonBody["display_name"], jsonBody["address"]["city"]..', '..string.upper(jsonBody["address"]["country_code"])
+   if not name then
+      -- Downloading if it's not cached
+      local url = "https://nominatim.openstreetmap.org/reverse?format=json&lat="..lat.."&lon="..lon
+      local res, body, jsonBody = cUrlClient:Get(url, function(a_Body, a_Data)
+         if a_Body then
+            LOG(a_Body)
+            return 1, a_Body, cJson:Parse(a_Body)
+         else
+            return 0, a_Data
+         end
+      end)
+      table.insert(j_file_r, jsonBody)
+      local j_file_w = cJson:Serialize(j_file_r)
+      fs.write(json_filename, j_file_w)
+      result = jsonBody["display_name"], jsonBody["address"]["city"]..', '..string.upper(jsonBody["address"]["country_code"])
+   end
+   return name, weather_name
 end
 
 -- Mere testing of the code
@@ -140,4 +133,5 @@ local testlat = 10.2532284
 local testlon = -67.5926057
 local lat, lon = toDMS(testlat, testlon)
 local mlat, mlon = toMCCoords(testlat, testlon)
-local rlat, rlon = getPlaceFromCoords(testlat, testlon)
+local rlat, rlon, name, weather_name = getCoordsFromPlace(testlat, testlon)
+LOG(rlat..' '..rlon)
