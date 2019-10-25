@@ -86,13 +86,13 @@ function getCoordsFromPlace(lat, lon)
       for k, v in pairs(json) do
          LOG(tostring(v))
          if v == "lat" then
-            LOG(v - lat)
-            if v - lat < 1 then
+            LOG((v) - (lat))
+            if (v) - (lat) < 1 then
                foundLat = v
             end
          elseif v == "lon" then
-            LOG(v - lon)
-            if v - lon < 1 then
+            LOG((v) - (lon))
+            if (v) - (lon) < 1 then
                foundLon = v
             end
          end
@@ -102,13 +102,13 @@ function getCoordsFromPlace(lat, lon)
       end
    end
    local file_r = cFile:ReadWholeFile(json_filename)
-   local name, weather_name
+   local nLat, nLon, name, weather_name
    local j_file_r = {}
    local _j_file_r = cJson:Parse(file_r)
    if type(_j_file_r) == "table" then -- Tasty type checking
       j_file_r = _j_file_r
-      name, weather_name = loadFromCache(j_file_r)
-      LOG("computation done, "..type(result))
+      nLat, nLon, name, weather_name = loadFromCache(j_file_r)
+      LOG("computation done, "..type(name))
    else
       fs.write(json_filename,'')
    end
@@ -123,9 +123,7 @@ function getCoordsFromPlace(lat, lon)
             return 0, a_Data
          end
       end)
-      table.insert(j_file_r, jsonBody)
-      local j_file_w = cJson:Serialize(j_file_r)
-      fs.write(json_filename, j_file_w)
+      fs.write(json_filename, body)
       if type(jsonBody) == 'table' then
          result = jsonBody["display_name"], jsonBody["address"]["city"]..', '..string.upper(jsonBody["address"]["country_code"])
       end
