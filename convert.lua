@@ -12,6 +12,7 @@ local json_filename = "Plugins/EarthTweaks/places.json"
 
 local fs = {}
 function fs.write(filename, contents)
+   if type(contents) ~= "string" then return end
    local fh = assert(io.open(filename, "wb"))
    fh:write(contents)
    fh:flush()
