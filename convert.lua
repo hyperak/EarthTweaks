@@ -8,6 +8,9 @@
 --   len: length of file
 --   asserts on error
 
+LOG(_VERSION)
+LOG(_ENV)
+
 local fs = {}
 
 function fs.length(filename)
@@ -34,10 +37,8 @@ end
 
 -- Read an entire file.
 function fs.readall(filename)
-   LOG("running filesystem read")
    local fh = assert(io.open(filename, "rb"))
    local contents = assert(fh:read("*a")) -- "a" in Lua 5.3; "*a" in Lua 5.1 and 5.2
-   LOG(contents)
    fh:close()
    return contents
 end
