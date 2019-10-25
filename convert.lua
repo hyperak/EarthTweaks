@@ -88,6 +88,7 @@ function getPlaceFromCoords(lat, lon)
       local yesLon = false
       for k, i in pairs(json) do
          if i and type(i) ~= "string" then
+            LOG(k..i)
             for k, v in pairs(i) do
                LOG(v)
                if k == "lat" then
