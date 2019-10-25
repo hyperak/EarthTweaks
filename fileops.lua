@@ -6,6 +6,7 @@
 --   len: length of file
 --   asserts on error
 
+function Initialize()
 fs = {}
 
 function fs.length(filename)
@@ -56,3 +57,4 @@ end
 LOG("Loaded file operations")
 
 return fs
+end
