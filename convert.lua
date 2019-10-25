@@ -36,8 +36,8 @@ end
 function fs.readall(filename)
    LOG("running filesystem read")
    local fh = assert(io.open(filename, "rb"))
-   LOG(type(fh))
    local contents = assert(fh:read("*a")) -- "a" in Lua 5.3; "*a" in Lua 5.1 and 5.2
+   LOG(contents)
    fh:close()
    return contents
 end
