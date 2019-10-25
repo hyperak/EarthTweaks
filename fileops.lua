@@ -1,13 +1,4 @@
--- http://lua-users.org/wiki/FileInputOutput
-
--- Find the length of a file
---   filename: file name
--- returns
---   len: length of file
---   asserts on error
-
-function Initialize()
-fs = {}
+local fs = {}
 
 function fs.length(filename)
   local fh = assert(io.open(filename, "rb"))
@@ -54,7 +45,4 @@ function fs.modify(filename, modify_func)
   write(filename, contents)
 end
 
-LOG("Loaded file operations")
-
 return fs
-end

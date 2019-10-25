@@ -1,6 +1,5 @@
 PLUGIN = nil
 Timer = {}
--- json = require('json') -- I do not read API-ese
 
 function Initialize(Plugin)
     Plugin:SetName("EarthTweaks")
