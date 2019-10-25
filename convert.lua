@@ -124,7 +124,9 @@ function getCoordsFromPlace(lat, lon)
       table.insert(j_file_r, jsonBody)
       local j_file_w = cJson:Serialize(j_file_r)
       fs.write(json_filename, j_file_w)
-      result = jsonBody["display_name"], jsonBody["address"]["city"]..', '..string.upper(jsonBody["address"]["country_code"])
+      if type(jsonBody) == 'table' then
+         result = jsonBody["display_name"], jsonBody["address"]["city"]..', '..string.upper(jsonBody["address"]["country_code"])
+      end
    end
    return name, weather_name
 end
