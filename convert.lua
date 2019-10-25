@@ -146,12 +146,13 @@ function getPlaceFromCoords(lat, lon)
 	    end
    end
    local file_r = fs.read('places.json')
+   LOG(file_r)
    local j_file_r = {}
    if type(file_r) == 'string' then
       local _j_file_r = cJson:Parse(file_r)
+      LOG("Json file parsed type is "..type(_j_file_r))
       if type(_j_file_r) == "table" then
          j_file_r = _j_file_r
-         LOG(file_r)
       end
       local result = loadFromCache(j_file_r)
       LOG("computation done, "..type(result))
