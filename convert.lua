@@ -86,13 +86,13 @@ function getCoordsFromPlace(lat, lon)
       for k, v in pairs(json) do
          LOG(tostring(v))
          if v == "lat" then
-            LOG((v) - (lat))
-            if (v) - (lat) < 1 then
+            LOG((k["lat"]) - (lat))
+            if (k["lat"]) - (lat) < 1 then
                foundLat = v
             end
          elseif v == "lon" then
-            LOG((v) - (lon))
-            if (v) - (lon) < 1 then
+            LOG((k["lon"]) - (lon))
+            if (k["lon"]) - (lon) < 1 then
                foundLon = v
             end
          end
