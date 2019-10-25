@@ -53,4 +53,6 @@ function fs.modify(filename, modify_func)
   write(filename, contents)
 end
 
+LOG("poo")
+
 return fs
