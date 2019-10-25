@@ -53,6 +53,6 @@ function fs.modify(filename, modify_func)
   write(filename, contents)
 end
 
-LOG("poo")
+LOG("Loaded file operations")
 
 return fs
