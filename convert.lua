@@ -8,6 +8,8 @@
 --   len: length of file
 --   asserts on error
 
+local json_filename = "Plugins/EarthTweaks/places.json"
+
 local fs = {}
 function fs.write(filename, contents)
    local fh = assert(io.open(filename, "wb"))
@@ -102,7 +104,7 @@ function getPlaceFromCoords(lat, lon)
 	       end
 	    end
    end
-   local file_r = cFile:ReadWholeFile("places.json")
+   local file_r = cFile:ReadWholeFile(json_filename)
    LOG(file_r)
    local j_file_r = {}
    if type(file_r) == 'string' then
@@ -115,7 +117,7 @@ function getPlaceFromCoords(lat, lon)
       LOG("computation done, "..type(result))
       return result or nil
    else
-      fs.write('places.json','')
+      fs.write(json_filename,'')
    end
    -- Downloading if it's not cached
    local url = "https://nominatim.openstreetmap.org/reverse?format=json&lat="..lat.."&lon="..lon
@@ -130,7 +132,7 @@ function getPlaceFromCoords(lat, lon)
    end)
    table.insert(j_file_r, jsonBody)
    local j_file_w = cJson:Serialize(j_file_r)
-   fs.write('places.json', j_file_w)
+   fs.write(json_filename, j_file_w)
    return jsonBody["display_name"], jsonBody["address"]["city"]..', '..string.upper(jsonBody["address"]["country_code"])
 end
 
