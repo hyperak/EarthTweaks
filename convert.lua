@@ -85,7 +85,8 @@ function getCoordsFromPlace(lat, lon)
       local foundLat = nil
       local foundLon = nil
       for k, v in pairs(json) do
-         LOG(tostring(v))
+         LOG("key "..tostring(k))
+         LOG("value "..tostring(v))
          if v == "lat" then
             LOG((k["lat"]) - (lat))
             if (k["lat"]) - (lat) < 1 then
